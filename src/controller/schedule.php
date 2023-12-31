@@ -4,40 +4,34 @@ $id = $_POST['id'];
 $name = $_POST['name'];
 $address = $_POST['address'];
 $phone = $_POST['phone'];
-$pattern = '#[0-9]{10}#';
+$pattern = '#[0-9]{9}#';
 $phonept = '#^0\d{9}$#';
 $timess = 1;
 if($id==""){
-   echo "fill id input sp";
-   echo "<br>";
+   echo '<script>alert("fill id input sp")</script>';
  
 }else{
   if(preg_match_all($pattern,$id)){
     
   }else{
-    echo "id format error";
-    echo "<br>";
+    echo "<script>alert('id format error')</script>";
   }
 }
 if($name==""){
-  echo "fill name input sp";
-  echo "<br>";
+  echo "<script> alert('name format error')</script>";
 }else{
   
 }
 if($address==""){
-echo "fill address input sp";
-echo "<br>";
+  echo "<script> alert('address format error')</script>";
 }
 if($phone == ""){
-echo "fill phone input sp";
-echo "<br>";
+echo "<script>alert('fill phone input sp')</script>";
 }else{
   if(preg_match_all($phonept,$phone)){
 
   }else{
-    echo "phone format error";
-    echo "<br>";
+    echo "<script>alert('phone format error')</script>";
   }
 }
 if($name != "" && $phone != "" && $address != "" && $id != "" ){
@@ -49,16 +43,19 @@ if($r->num_rows>0){
            $timess += $rs['Timess'] ;
     }
     if($timess>2){
-       echo "Can't submit your information because you haved submited 2 times";
+       echo "<script>alert('Can\'t submit your information because you haved submited 2 times');</script>";
     }else if($timess>1){
       $sqlu = "Update customer set Timess = '$timess' where CID = '$id'";
-      echo "This is the lastest time you can use covid vaccine";
+      echo "<script>alert('This is the lastest time you can use covid vaccine');</script>";
       mysqli_query($conn,$sqlu);
     }
 }else{
 $sqli = "insert into customer (CID,Name,Phone,Address,Timess) values ('$id','$name','$phone','$address','$timess')";
-echo "Successfully inserted";
+$randv = rand(1,8);
+$sqlss = "insert into schedule (VID,CID,VSID) values ('$randv','$id','1');";
+echo "<script>alert('Successfully inserted');</script>";
 mysqli_query($conn,$sqli);
+mysqli_query($conn,$sqlss);
 }
 }
 }

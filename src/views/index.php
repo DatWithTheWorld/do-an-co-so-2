@@ -1,3 +1,8 @@
+<?php
+require_once '../controller/connectiondb.php';
+$sql = "update access_logs set counter = counter +1 where id=1";
+mysqli_query($conn, $sql);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,10 +87,9 @@
                         <form action="../controller/vaccinecontroller.php" method="post" class="result__form--input">
                             <input class="top" type="text" placeholder="Okeowo" name="hoten">
                             <input class="bottom" type="text" placeholder="NIK Number" name="phone">
-                            <button class="button" >
-                                <a class="button--text" href="#" >
+                            <button class="button" style="font-size: 32px;color:white">
                                     Check
-                                </a>
+                              
                             </button>
                         </form>
                             <p class="result__form--question">

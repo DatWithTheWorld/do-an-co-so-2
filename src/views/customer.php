@@ -1,12 +1,4 @@
 
-<?php
-session_start();
-if($_SESSION['loggedin']!==true|| !isset($_SESSION['loggedin'])){
-  echo "<script>window.location.href = 'login.php';</script>";
-  exit();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,63 +8,64 @@ if($_SESSION['loggedin']!==true|| !isset($_SESSION['loggedin'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <!-- ======= Styles ====== -->
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
-<style>
+    
+  </head>
+  <style>
     /* =========== Google Fonts ============ */
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
-
-/* =============== Globals ============== */
-* {
-  font-family: "Ubuntu", sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-:root {
-  --blue: #2a2185;
-  --white: #fff;
-  --gray: #f5f5f5;
-  --black1: #222;
-  --black2: #999;
-}
-
-body {
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-.container {
-  position: relative;
-  width: 100%;
-}
-
-/* =============== Navigation ================ */
-.navigation {
-  position: fixed;
-  width: 300px;
-  height: 100%;
-  background: var(--blue);
-  border-left: 10px solid var(--blue);
-  transition: 0.5s;
-  overflow: hidden;
-}
-.navigation.active {
-  width: 80px;
-}
-
-.navigation ul {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
-
-.navigation ul li {
-  position: relative;
-  width: 100%;
-  list-style: none;
+    @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
+    
+    /* =============== Globals ============== */
+    * {
+      font-family: "Ubuntu", sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --blue: #2a2185;
+      --white: #fff;
+      --gray: #f5f5f5;
+      --black1: #222;
+      --black2: #999;
+    }
+    
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      width: 100%;
+    }
+    
+    .container {
+      position: relative;
+      width: 100vw;
+    }
+    
+    /* =============== Navigation ================ */
+    .navigation {
+      position: fixed;
+      width: 300px;
+      height: 100%;
+      background: var(--blue);
+      border-left: 10px solid var(--blue);
+      transition: 0.5s;
+      overflow: hidden;
+    }
+    .navigation.active {
+      width: 80px;
+    }
+    
+    .navigation ul {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+    
+    .navigation ul li {
+      position: relative;
+      width: 100%;
+      list-style: none;
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
 }
@@ -121,6 +114,7 @@ body {
   text-align: start;
   white-space: nowrap;
 }
+
 
 /* --------- curve outside ---------- */
 .navigation ul li:hover a::before,
@@ -283,22 +277,18 @@ body {
 .details {
   position: relative;
   width: 100%;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  /* margin-top: 10px; */
+  padding: 20px;/
 }
 
 .details .recentOrders {
   position: relative;
-  display: flex;
-  flex-direction: column;
+  display: grid;
   min-height: 500px;
   background: var(--white);
   padding: 20px;
-  width: 60%;
   box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
+  width: 100%;
 }
 
 .details .cardHeader {
@@ -391,7 +381,6 @@ body {
   background: var(--white);
   box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
-  width: 30%;
 }
 .recentCustomers .imgBx {
   position: relative;
@@ -491,14 +480,16 @@ body {
   }
 }
 </style>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <body>
-    <!-- =============== Navigation ================ -->
-    <div class="container">
-        <div class="navigation">
-            <ul>
-                <li>
-                    <a href="#">
-                        <span class="title" style="font-size:32px">Hello admin</span>
+  <!-- =============== Navigation ================ -->
+  <div class="container">
+    <div class="navigation">
+      <ul>
+        <li>
+          <a href="#">
+            <span class="title" style="font-size:32px">Hello admin</span>
                     </a>
                 </li>
 
@@ -581,85 +572,6 @@ body {
                     </label>
                 </div>
             </div>
-
-            <!-- ======================= Cards ================== -->
-            <div class="cardBox">
-                <div class="card">
-                    <div>
-                        <div class="numbers"><?php 
-                        require_once "../controller/connectiondb.php";
-                        $sql = "select counter from access_logs where id = 1";
-                        $result = mysqli_query($conn, $sql);
-                         if($result->num_rows>0){
-                          while($r = mysqli_fetch_array($result)){
-                                  echo $r['counter'];
-                          }
-                         }
-                        ?></div>
-                        <div class="cardName">Views</div>
-                    </div>
-
-                    <div class="iconBx">
-                        <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">
-
-                        <?php
-                        require_once "../controller/connectiondb.php";
-                        $sql = "select sum(Timess) as counts from customer";
-                        $result = mysqli_query($conn, $sql);
-                         if($result->num_rows>0){
-                          while($r = mysqli_fetch_array($result)){
-                                  echo $r['counts'];
-                          }
-                         }
-
-                        ?>
-                        </div>
-                        <div class="cardName">Sales</div>
-                    </div>
-
-                    <div class="iconBx">
-                        <ion-icon name="cart-outline"></ion-icon>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">284</div>
-                        <div class="cardName">Comments</div>
-                    </div>
-
-                    <div class="iconBx">
-                        <ion-icon name="chatbubbles-outline"></ion-icon>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">$<?php
-                        require_once "../controller/connectiondb.php";
-                        $sql = "select count(VID) as total from schedule";
-                        $result = mysqli_query($conn, $sql);
-                         if($result->num_rows>0){
-                          while($r = mysqli_fetch_array($result)){
-                                  echo $r['total']*500;
-                          }
-                         }
-                        ?></div>
-                        <div class="cardName">Earning</div>
-                    </div>
-
-                    <div class="iconBx">
-                        <ion-icon name="cash-outline"></ion-icon>
-                    </div>
-                </div>
-            </div>
-
             <!-- ================ Order Details List ================= -->
             <div class="details">
                 <div class="recentOrders">
@@ -671,85 +583,46 @@ body {
                     <table>
                         <thead>
                             <tr>
+                                <td>Id</td>
                                 <td>Name</td>
-                                <td>Price</td>
+                                <td>Phone</td>
+                                <td>Address</td>
+                                <td>Time</td>
+                                <td>Session</td>
+                                <td>Status</td>
                             </tr>
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td>AstraZeneca</td>
-                                <td>$500</td>
-                            </tr>
-
-                            <tr>
-                                <td>Vero Cell </td>
-                                <td>$500</td>
-                            </tr>
-
-                            <tr>
-                                <td>Comirnaty</td>
-                                <td>$500</td>
-                            </tr>
-
-                            <tr>
-                                <td>Spikevax</td>
-                                <td>$500</td>
-                            </tr>
-
-                            <tr>
-                                <td>Janssen</td>
-                                <td>$500</td>
-                            </tr>
-
-                            <tr>
-                                <td>Hayat - Vax</td>
-                                <td>$500</td>
-                            </tr>
-
-                            <tr>
-                                <td>Gam-COVID-Vac</td>
-                                <td>$500</td>
-                            </tr>
-
-                            <tr>
-                                <td>Abdala</td>
-                                <td>$500</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- ================= New Customers ================ -->
-                <div class="recentCustomers">
-                    <div class="cardHeader">
-                        <h2>Recent Customers</h2>
-                    </div>
-
-                    <table>
-                      <?php
-                      require_once "../controller/connectiondb.php";
-                      $sql = "select Name, Address from customer";
-                      $result = mysqli_query($conn, $sql);
-                      if($result->num_rows >0){
-                             while($row = mysqli_fetch_array($result)){
-                      
-                      ?>
-                        <tr>
-                            <td>
-                                <h4><?php echo $row['Name'];?><br> <span><?php echo $row['Address'];?></span></h4>
-                            </td>
-                        </tr>
-
-                        <?php
-                             }
-                        }
+                          <?php
+                          require_once "../controller/connectiondb.php";
+                            $sql = "SELECT c.CID,c.Name,c.Phone,c.Address,c.Timess, s.VSID from customer c inner join schedule s on c.CID = s.CID";
+                            $result = mysqli_query($conn, $sql);
+                            while ($row = mysqli_fetch_assoc($result)) {
                         ?>
+                        <tr>
+                          <td><?php echo $row['CID']?></td>
+                          <td><?php echo $row['Name']?></td>
+                          <td><?php echo $row['Phone']?></td>
+                          <td><?php echo $row['Address']?></td>
+                          <td><?php echo $row['Timess']?></td>
+                          <td><?php echo $row['VSID']?></td>
+                          <td><button class="btn btn-success">Update</button> - <button class="btn btn-danger">Delete</button></td>
+                        </tr>
+                        <?php
+                            }
+                        ?>
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
     <!-- =========== Scripts =========  -->
     <script>

@@ -10,6 +10,17 @@
 <body>
 
 
+
+<?php 
+$hoten = $_POST['hoten'];
+$phone = $_POST['phone'];
+require_once 'connectiondb.php';
+$sql = "SELECT * FROM customer WHERE Name = '$hoten' AND Phone = '$phone'";
+
+$result = mysqli_query($conn, $sql);
+if ($result->num_rows > 0){
+    echo "You have signed up in this website, you only see your information";
+?>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -21,16 +32,7 @@
     </tr>
   </thead>
   <tbody>
-<?php 
-$hoten = $_POST['hoten'];
-$phone = $_POST['phone'];
-require_once 'connectiondb.php';
-$sql = "SELECT * FROM customer WHERE Name = '$hoten' AND Phone = '$phone'";
-
-$result = mysqli_query($conn, $sql);
-if ($result){
-    echo "You have signed up in this website, you only see your information";
-}
+    <?php
 while($r = mysqli_fetch_array($result)){
 
 ?>
@@ -39,13 +41,19 @@ while($r = mysqli_fetch_array($result)){
       <td> <?php echo $r['Name'] ?> </td>
       <td> <?php echo $r['Phone'] ?> </td>
       <td> <?php echo $r['Address']?> </td>
-      <td> <?php echo $r['Times']?> </td>
+      <td> <?php echo $r['Timess']?> </td>
     </tr>
 <?php
 } 
 ?>
-  </tbody>
-</table>  
+ </tbody>
+</table> 
+<?php
+}else{
+  echo '<h1> No value valid </h1>';
+}
+?>
+  
    <button class="btn btn-secondary" ><a href="../views/index.php">Return</a></button>
    
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
