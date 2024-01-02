@@ -25,11 +25,19 @@
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="vtype.php">
                         <span class="icon">
-                            <ion-icon name="chatbubble-outline"></ion-icon>
+                        <ion-icon name="keypad-outline"></ion-icon>
                         </span>
-                        <span class="title">Messages</span>
+                        <span class="title">Vaccine Type</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="chatadmin.php">
+                        <span class="icon">
+                        <ion-icon name="chatbox-outline"></ion-icon>
+                        </span>
+                        <span class="title">Chat</span>
                     </a>
                 </li>
 
@@ -51,17 +59,9 @@
                     </a>
                 </li>
 
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="lock-closed-outline"></ion-icon>
-                        </span>
-                        <span class="title">Password</span>
-                    </a>
-                </li>
 
                 <li>
-                    <a href="#">
+                    <a href="signoutadmin.php">
                         <span class="icon">
                             <ion-icon name="log-out-outline"></ion-icon>
                         </span>

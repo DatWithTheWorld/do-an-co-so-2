@@ -1,9 +1,16 @@
 <?php 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require '../PHPMailer/src/Exception.php';
+require '../PHPMailer/src/PHPMailer.php';
+require '../PHPMailer/src/SMTP.php';
+require '../../vendor/autoload.php';
 if(isset($_POST['submit'])){
-$id = $_POST['id'];
+  $id = $_POST['id'];
 $name = $_POST['name'];
 $address = $_POST['address'];
 $phone = $_POST['phone'];
+$email = $_POST['email'];
 $pattern = '#[0-9]{9}#';
 $phonept = '#^0\d{9}$#';
 $timess = 1;
@@ -50,22 +57,42 @@ if($r->num_rows>0){
       mysqli_query($conn,$sqlu);
     }
 }else{
-$sqli = "insert into customer (CID,Name,Phone,Address,Timess) values ('$id','$name','$phone','$address','$timess')";
-$randv = rand(1,8);
+$sqli = "insert into customer (CID,Name,Phone,Address,Timess,Email) values ('$id','$name','$phone','$address','$timess','$email')";
+$sqlslvid = "select MAX(VID) as vids from vtype ";
+$rs = mysqli_query($conn,$sqlslvid);
+$r = mysqli_fetch_assoc($rs);
+$maxnum = (int) $r['vids'];
+$randv = rand(1,$maxnum);
 $sqlss = "insert into schedule (VID,CID,VSID) values ('$randv','$id','1');";
-echo "<script>alert('Successfully inserted');</script>";
+
 mysqli_query($conn,$sqli);
 mysqli_query($conn,$sqlss);
+ $sqlaccount = "insert into Account (Account,Password,CID) values ('$name','12345','$id')";
+   mysqli_query($conn,$sqlaccount);
+   try{
+    $mail = new PHPMailer(true);
+    $mail -> isSMTP();
+    $mail -> Host = 'smtp.gmail.com';
+    $mail -> SMTPAuth = true;
+    $mail -> Username = 'datnd.22git@vku.udn.vn';
+    $mail -> Password = 'qucbymduifoaqrix';
+    $mail -> SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+    $mail -> Port = 465;
+    $mail -> setFrom('datnd.22git@vku.udn.vn','Vacination.ng');
+    $mail -> addAddress($_POST['email'],'$name');
+    $mail -> isHTML(true);
+    $mail -> Subject = "Vaccination.ng notifications";
+    $mail -> Body = "You have already signed up, this is your username:$name and password:12345 to login to website here:http://localhost/do-an-co-so-2/src/views/customer.php";
+    $mail ->send();
+    echo "<script>alert('Email has been sent');</script>";
+   }catch(Exception $e){
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+   }
+  
+   echo "<script>alert('Successfully inserted');</script>";
 }
 }
-}else {
-  // Ngăn chặn yêu cầu F5
-  header('HTTP/1.0 403 Forbidden');
-  echo "Refresh is not allowed.";
-  exit();
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -116,6 +143,7 @@ mysqli_query($conn,$sqlss);
   <input type="text" name="name" placeholder="Name">
   <input type="text" name="phone" placeholder="Phone">
   <input type="text" name="address" placeholder="Address">
+  <input type="email" name="email" placeholder="Email">
   <button class="btn-danger" name="submit" value="submit">Submit</button>
   <button class="btn-success" ><a href="../views/index.php" style="text-decoration:none">Return</a></button>
 </form>
