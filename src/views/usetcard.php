@@ -629,7 +629,7 @@ body {
                             <?php
                             require_once "../controller/connectiondb.php";
                             $cid = $_SESSION['CID'];
-                            $sqlvc = "select vtype.Name, vtype.Desciption,vtype.Price,vtype.Image from vtype inner join schedule on vtype.VID = schedule.VID where vtype.VID in (SELECT VID FROM schedule WHERE CID = $cid); ";
+                            $sqlvc = "select DISTINCT vtype.Name, vtype.Desciption,vtype.Price,vtype.Image from vtype inner join schedule on vtype.VID = schedule.VID where vtype.VID in (SELECT VID FROM schedule WHERE CID = $cid); ";
                             $resultvtp = mysqli_query($conn,$sqlvc);
                             while ($row = mysqli_fetch_array($resultvtp)){
                             

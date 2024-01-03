@@ -11,7 +11,7 @@
                       </li>
                       
                       <li class="nav-list-n">
-                        <a href="#schedule">Schedule</a>
+                        <a href="../controller/schedule.php">Schedule</a>
                     </li>
                     
                     <li class="nav-list-n">

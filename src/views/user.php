@@ -627,7 +627,7 @@ body {
                                 <td><?php echo $row['Desciption']?></td>
                                 <td><img src="<?php echo $row['Image']?>" width="150" height="150" style="border-radius:50%;border:black 1px solid"></td>
                                 <td>$<?php echo $row['Price']?></td>
-                                <td><a onclick="return alert('Add to cart ?')" href="addcart.php?vid=<?php echo $row['VID']?>" style="background-color: green;padding:10px 15px;border-radius:10px;border:none;cursor:pointer"><ion-icon name="cart-outline"></ion-icon> Add to cart</button></td>
+                                <td><a onclick="return alert('Add to cart ?')" href="addcart.php?vid=<?php echo $row['VID']?>" style="background-color: green;padding:10px 15px;border-radius:10px;border:none;cursor:pointer;text-decoration:none;color:white"><ion-icon name="cart-outline"></ion-icon> Add to cart</button></td>
 
                             </tr>
                             <?php
@@ -652,17 +652,18 @@ body {
                     }
                 }
                 ?>
-                <div class="recentCustomers">
-                   <div class="card">
+                <div class="recentCustomers" style="margin-left: 40px; display:flex;padding:20px;flex-direction:column">
+                   <div class="card" style="display: flex; align-items: center;flex-direction:column;justify-content:center">
                     <div class="cardtop">
-                        <img src="<?php echo $imglink?>" alt="" width="200px" height="200px">
+                    <?php echo '<img style="border-radius:50%" src="../' . $imglink . '" alt="" width="200px" height="200px">'; ?>   
                     </div>
-                    <div class="cardbottom">
-                        <h3>Upload your new avatar</h3>
-                        <form action="" method="POST">
-                            <input type="file">
-                            <input type="submit" value="submit" name="submit">
-                        </form>
+                    <div class="cardbottom" style="">
+                        <h3 style="margin-bottom:20px" >Upload your new avatar</h3>
+                        <form method="POST" action="upload.php" enctype="multipart/form-data"> 
+<input type="hidden" name="size" value="1000000"> 
+<input type="file" name="image"> 
+<button type="submit" name="upload">POST</button>
+</form> 
                     </div>
                    </div>
                 </div>
